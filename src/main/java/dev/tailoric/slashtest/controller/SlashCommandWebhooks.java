@@ -10,6 +10,7 @@ import com.nimbusds.jose.crypto.Ed25519Verifier;
 import com.nimbusds.jose.jwk.OctetKeyPair;
 import dev.tailoric.slashtest.model.InteractionReceive;
 import dev.tailoric.slashtest.model.InteractionResponse;
+import dev.tailoric.slashtest.model.discord.InteractionCallbackType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,15 +33,10 @@ import java.text.ParseException;
 @RequestMapping
 public class SlashCommandWebhooks {
 
-    private final ObjectMapper mapper;
-    @Autowired
-    public SlashCommandWebhooks(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
     @RequestMapping(value = "/slash/incoming", method = RequestMethod.POST, produces = "application/json")
     public InteractionResponse receive(@RequestBody InteractionReceive interaction, HttpServletRequest request) {
         var response = new InteractionResponse();
-        response.setType(1);
+        response.setType(InteractionCallbackType.Pong);
         return response;
     }
 
