@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.tailoric.slashtest.model.discord.*;
 import lombok.Data;
 
+/**
+ * https://discord.com/developers/docs/interactions/slash-commands#interaction
+ */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InteractionReceive {

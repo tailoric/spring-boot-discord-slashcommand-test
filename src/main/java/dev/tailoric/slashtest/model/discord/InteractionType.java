@@ -28,6 +28,8 @@ public enum InteractionType {
         return null;
     }
 
+    //We are doing it like this because of a Jackson inconsistency which makes @JsonValue return the ordinal number
+    // see here for more info https://github.com/FasterXML/jackson-databind/issues/1850#issuecomment-445341265
     @JsonCreator
     public static InteractionType forValue(int v){
         return InteractionType.forType(v);

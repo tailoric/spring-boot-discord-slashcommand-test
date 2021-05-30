@@ -7,18 +7,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.util.stream.Collectors;
 
+/**
+ * Filter for verifying the signature that is sent with every slash command
+ * see here https://discord.com/developers/docs/interactions/slash-commands#security-and-authorization
+ */
 @Component
 @Slf4j
 public class SlashCommandVerifier implements Filter {
@@ -38,9 +39,9 @@ public class SlashCommandVerifier implements Filter {
         var timestamp = req.getHeader("X-Signature-Timestamp");
         var sigBytes = new BigInteger(signature, 16).toByteArray();
         var message = timestamp+body;
-        log.info(signature);
-        log.info(timestamp);
-        log.info(message);
+        log.debug(signature);
+        log.debug(timestamp);
+        log.debug(message);
         try{
             verifier.verify(sigBytes, message.getBytes(StandardCharsets.UTF_8));
         }

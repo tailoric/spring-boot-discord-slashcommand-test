@@ -18,9 +18,11 @@ public enum InteractionCallbackType {
     public int toValue(){
         return getCallBackType();
     }
+
     InteractionCallbackType(int callBackType) {
         this.callBackType = callBackType;
     }
+
     public static InteractionCallbackType forType(int type){
         for (var element :
                 values()) {
@@ -30,6 +32,9 @@ public enum InteractionCallbackType {
         }
         return null;
     }
+
+    //We are doing it like this because of a Jackson inconsistency which makes @JsonValue return the ordinal number
+    // see here for more info https://github.com/FasterXML/jackson-databind/issues/1850#issuecomment-445341265
     @JsonCreator
     public static InteractionCallbackType forValue(int v){
         return InteractionCallbackType.forType(v);

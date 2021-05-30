@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class CachedBodyServletInputStream extends ServletInputStream {
-    private InputStream cachedInputStream;
+    private final InputStream cachedInputStream;
     public CachedBodyServletInputStream(byte[] cachedBody) {
         this.cachedInputStream = new ByteArrayInputStream(cachedBody);
     }
