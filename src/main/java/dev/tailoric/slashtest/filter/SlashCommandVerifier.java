@@ -33,7 +33,7 @@ public class SlashCommandVerifier implements Filter {
         var req = (HttpServletRequest) request;
         var res = (HttpServletResponse) response;
         var wrappedReq = new CachedBodyHttpServletRequest(req);
-        var body = wrappedReq.getReader().readLine();
+        var body = wrappedReq.getReader().readLine().strip();
         var signature = req.getHeader("X-Signature-Ed25519");
         var timestamp = req.getHeader("X-Signature-Timestamp");
         var sigBytes = new BigInteger(signature, 16).toByteArray();
@@ -47,6 +47,7 @@ public class SlashCommandVerifier implements Filter {
         catch (GeneralSecurityException e){
             log.error("Error while verifying slash command:", e);
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            res.getWriter().print("invalid request signature");
             return;
         }
         chain.doFilter(wrappedReq, response);
